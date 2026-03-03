@@ -1,0 +1,24 @@
+name: 自动部署网页  # 任务名字
+
+on:
+  push:
+    branches:
+      - main  # 当你向 main 分支推送代码时，触发这个任务
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 下载你的代码到虚拟机
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. 使用你提到的那个 Action 进行部署
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v4.0.0
+        with:
+          # 告诉插件：我要发布哪个文件夹里的内容？
+          publish_dir: ./public  
+          
+          # 这里的 GITHUB_TOKEN 是 GitHub 自动生成的，不需要你手动去创建
+          github_token: ${{ secrets.GITHUB_TOKEN }}
